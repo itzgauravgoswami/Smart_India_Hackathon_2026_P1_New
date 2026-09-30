@@ -60,8 +60,29 @@ export default function AppLayout() {
         />
 
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-          <div className="max-w-7xl mx-auto">
-            <Outlet />
+          <div className="max-w-7xl mx-auto flex flex-col min-h-full">
+            <div className="flex-1">
+              <Outlet />
+            </div>
+
+            {/* Operational App Footer */}
+            <footer className="mt-12 pt-6 pb-2 border-t border-slate-300/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+              <div className="flex items-center gap-2.5">
+                <div className="w-5 h-5 rounded-md bg-white border border-slate-300 overflow-hidden flex items-center justify-center p-0.5 shadow-2xs">
+                  <img src="/logo.png" alt="EcoNest" className="w-full h-full object-contain" />
+                </div>
+                <span className="font-bold text-slate-800">EcoNest Operations Platform</span>
+                <span className="text-slate-400">•</span>
+                <span className="text-emerald-700 font-bold font-mono text-[11px] flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  12 Stations Live
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-4 text-[11px]">
+                <span className="text-slate-600 font-mono font-medium">DETECT → CLASSIFY → VERIFY → ACT → PROVE → MEASURE</span>
+                <span className="text-slate-400 font-mono">v1.0.0</span>
+              </div>
+            </footer>
           </div>
         </main>
       </div>

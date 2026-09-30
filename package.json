@@ -1,7 +1,7 @@
 {
-  "name": "swaloop-monorepo",
+  "name": "econest-monorepo",
   "version": "1.0.0",
-  "description": "SwaLoop - Every waste event. One verified loop.",
+  "description": "EcoNest - Every waste event. One verified loop.",
   "scripts": {
     "install:all": "npm install && cd server && npm install && cd ../client && npm install",
     "dev:server": "cd server && npm run dev",
@@ -9,11 +9,11 @@
     "seed": "cd server && npm run seed"
   },
   "keywords": [
-    "swaloop",
+    "econest",
     "waste-management",
     "smart-campus",
     "sanitation"
   ],
-  "author": "SwaLoop Architecture Team",
+  "author": "EcoNest Architecture Team",
   "license": "MIT"
 }

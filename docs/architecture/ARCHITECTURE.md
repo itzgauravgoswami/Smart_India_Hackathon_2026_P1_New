@@ -1,14 +1,14 @@
-# SwaLoop Architecture Blueprint
+# EcoNest Architecture Blueprint
 
 > **"Every waste event. One verified loop."**
 
 ## 1. System Overview
 
-SwaLoop is an enterprise campus waste and sanitation management platform engineered to resolve the operational disconnect between waste generation, classification, collection, and verification.
+EcoNest is an enterprise campus waste and sanitation management platform engineered to resolve the operational disconnect between waste generation, classification, collection, and verification.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│                        THE SWALOOP LOOP                                │
+│                        THE ECONEST LOOP                                │
 │                                                                        │
 │   DETECT ──► CLASSIFY ──► VERIFY ──► ACT ──► PROVE ──► MEASURE         │
 │  (Sensor/    (Gemini AI/  (Physical   (Task    (Photo    (Closed-Loop  │
@@ -30,7 +30,7 @@ Instead of treating dustbins as passive buckets with counters, every waste inter
 - **Immutable Timeline**: Sequential timestamped log of each lifecycle stage
 
 ### Innovation 2: The Exception Engine
-Rather than presenting raw statistical dashboards, SwaLoop operates on an **Exception-First** paradigm:
+Rather than presenting raw statistical dashboards, EcoNest operates on an **Exception-First** paradigm:
 1. **Overflow**: Station fill exceeds configured threshold (e.g. >90%)
 2. **Contamination**: Vision AI detects cross-stream placement
 3. **Missed Collection**: Task exceeds allotted SLA window

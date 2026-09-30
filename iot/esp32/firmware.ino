@@ -1,5 +1,5 @@
 /*
- * SwaLoop Smart Station Firmware — ESP32 + Ultrasonic HC-SR04
+ * EcoNest Smart Station Firmware — ESP32 + Ultrasonic HC-SR04
  * Every waste event. One verified loop.
  */
 
@@ -24,7 +24,7 @@ void setup() {
     delay(500);
     Serial.print(".");
   }
-  Serial.println("\nWiFi connected to SwaLoop Campus Mesh.");
+  Serial.println("\nWiFi connected to EcoNest Campus Mesh.");
 }
 
 void loop() {

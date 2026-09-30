@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/swaloop';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/econest';
 
 // Middleware
 app.use(cors({
@@ -34,7 +34,7 @@ app.use('/api', apiRouter);
 // Root informational endpoint
 app.get('/', (req, res) => {
   res.json({
-    name: 'SwaLoop Operations Platform API',
+    name: 'EcoNest Operations Platform API',
     tagline: 'Every waste event. One verified loop.',
     version: '1.0.0',
     demoMode: true,
@@ -67,7 +67,7 @@ app.use((err, req, res, next) => {
 // Start listening immediately
 app.listen(PORT, () => {
   console.log(`=======================================================`);
-  console.log(`  SWALOOP OPERATIONS PLATFORM — BACKEND ONLINE`);
+  console.log(`  ECONEST OPERATIONS PLATFORM — BACKEND ONLINE`);
   console.log(`  Every waste event. One verified loop.`);
   console.log(`  Port: http://localhost:${PORT}`);
   console.log(`  API Health: http://localhost:${PORT}/api/health`);
@@ -75,7 +75,7 @@ app.listen(PORT, () => {
   
   // Non-blocking background attempt to connect to MongoDB
   if (process.env.DEMO_MODE === 'true' && !process.env.MONGODB_URI) {
-    console.log('✓ SwaLoop is operating in High-Fidelity Zero-Dependency Demo Mode.');
+    console.log('✓ EcoNest is operating in High-Fidelity Zero-Dependency Demo Mode.');
   } else {
     mongoose.connect(MONGODB_URI, {
       serverSelectionTimeoutMS: 1500,

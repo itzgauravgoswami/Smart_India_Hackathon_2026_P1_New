@@ -31,7 +31,7 @@ export default function LandingPage() {
                 <path d="M20 14L22.5 16.5L25 12" stroke="#38BDF8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <span className="font-bold text-lg text-slate-900">SwaLoop</span>
+            <span className="font-bold text-lg text-slate-900">EcoNest</span>
           </div>
 
           <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-600">
@@ -98,10 +98,10 @@ export default function LandingPage() {
               The Architecture
             </span>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 mt-1">
-              The SwaLoop Verification Loop
+              The EcoNest Verification Loop
             </h2>
             <p className="text-xs text-slate-500 mt-1">
-              SwaLoop does not simply tell people which bin to use. It creates a verified operational loop around waste events.
+              EcoNest does not simply tell people which bin to use. It creates a verified operational loop around waste events.
             </p>
           </div>
 
@@ -226,7 +226,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="py-8 bg-white border-t border-slate-200 text-center text-xs text-slate-500">
-        <p>SwaLoop — Every waste event. One verified loop. Main Smart Campus Prototype.</p>
+        <p>EcoNest — Every waste event. One verified loop. Main Smart Campus Prototype.</p>
       </footer>
     </div>
   );

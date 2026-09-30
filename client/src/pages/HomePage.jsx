@@ -32,7 +32,14 @@ import {
   Flame,
   CheckSquare,
   Menu,
-  X
+  X,
+  Briefcase,
+  HardHat,
+  GraduationCap,
+  Landmark,
+  Shield,
+  FileText,
+  Globe
 } from 'lucide-react';
 import LoopBanner from '../components/LoopBanner';
 import StatusBadge from '../components/StatusBadge';
@@ -128,7 +135,7 @@ export default function HomePage() {
       stepNum: '03',
       title: 'Verify',
       subtitle: 'Physical Station QR Cryptographic Validation',
-      desc: 'Sanitation crew members must physically scan the station-specific QR token at the bin hopper. SwaLoop validates the physical token against geospatial coordinates, eliminating fraudulent remote sign-offs.',
+      desc: 'Sanitation crew members must physically scan the station-specific QR token at the bin hopper. EcoNest validates the physical token against geospatial coordinates, eliminating fraudulent remote sign-offs.',
       actor: 'Field Sanitation Crew',
       sla: 'Zero GPS spoofing',
       tag: 'On-Site Presence Proof',
@@ -262,17 +269,13 @@ export default function HomePage() {
             <div className="relative">
               {/* Outer ambient glow on hover */}
               <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl blur-xs opacity-40 group-hover:opacity-100 transition duration-300" />
-              <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 flex items-center justify-center text-white shadow-md border border-slate-800/80 group-hover:scale-105 transition-transform duration-200">
-                <svg className="w-4.5 h-4.5" viewBox="0 0 32 32" fill="none">
-                  <path d="M11 16C11 13.2386 13.2386 11 16 11C18.7614 11 21 13.2386 21 16C21 18.7614 18.7614 21 16 21C13.5 21 11.5 19.3 11.1 17" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round"/>
-                  <circle cx="16" cy="16" r="2.5" fill="#10B981"/>
-                  <path d="M20 14L22.5 16.5L25 12" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+              <div className="relative w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-md border border-slate-200 overflow-hidden group-hover:scale-105 transition-transform duration-200">
+                <img src="/logo.png" alt="EcoNest Logo" className="w-full h-full object-contain p-0.5" />
               </div>
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-base text-slate-900 tracking-tight font-sans">SwaLoop</span>
+                <span className="font-extrabold text-base text-slate-900 tracking-tight font-sans">EcoNest</span>
                 <span className="inline-flex items-center gap-1 text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-gradient-to-r from-emerald-500/10 via-teal-500/15 to-emerald-500/10 text-emerald-800 border border-emerald-500/25 font-bold shadow-2xs">
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -471,7 +474,7 @@ export default function HomePage() {
 
         {/* Hero Subtitle */}
         <p className="text-sm sm:text-base text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium">
-          SwaLoop is not another generic "smart dustbin". It is an enterprise operational governance platform for universities, smart campuses, and facilities. From <strong>vision classification</strong> to <strong>physical QR collection</strong> and <strong>photographic proof</strong>.
+          EcoNest is not another generic "smart dustbin". It is an enterprise operational governance platform for universities, smart campuses, and facilities. From <strong>vision classification</strong> to <strong>physical QR collection</strong> and <strong>photographic proof</strong>.
         </p>
 
         {/* Dual Actions */}
@@ -557,7 +560,7 @@ export default function HomePage() {
                     'Pending Mobile Scan'
                   )}
                 </span>
-                <span className="text-[10px] text-emerald-800 font-mono font-semibold">SWALOOP-QR-WS-004</span>
+                <span className="text-[10px] text-emerald-800 font-mono font-semibold">ECONEST-QR-WS-004</span>
               </div>
             </div>
             <div className="mb-4 grid grid-cols-1 md:grid-cols-3 gap-3 items-center p-3 rounded-xl bg-slate-50 border border-slate-200">
@@ -774,7 +777,7 @@ export default function HomePage() {
             OPERATIONAL ARCHITECTURE
           </span>
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-            The SwaLoop 6-Stage Verified Loop
+            The EcoNest 6-Stage Verified Loop
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
             Every waste event moves through six verifiable stages to guarantee absolute accountability.
@@ -895,7 +898,7 @@ export default function HomePage() {
                 Cryptographic Traceability for Campus Operations
               </h3>
               <p className="leading-relaxed text-slate-400">
-                Rather than storing anonymous tally counts, SwaLoop treats waste as an audited transaction. A complete vertical timeline tracks every milestone with millimeter precision.
+                Rather than storing anonymous tally counts, EcoNest treats waste as an audited transaction. A complete vertical timeline tracks every milestone with millimeter precision.
               </p>
 
               <div className="space-y-3 pt-2 text-xs">
@@ -986,7 +989,7 @@ export default function HomePage() {
                   </div>
                   <div className="flex justify-between text-emerald-400">
                     <span>11:05 AM • Physical Station QR Validated</span>
-                    <span className="text-slate-500">SWALOOP-QR-WS-004</span>
+                    <span className="text-slate-500">ECONEST-QR-WS-004</span>
                   </div>
                   <div className="flex justify-between text-emerald-300">
                     <span>11:07 AM • Photo Proof Uploaded & Loop Closed</span>
@@ -1096,7 +1099,7 @@ export default function HomePage() {
             Software-First, Hardware-Compatible
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-            SwaLoop does not require costly proprietary hardware. The software engine works seamlessly with low-cost ESP32 microcontrollers or in pure software citizen-reporting mode.
+            EcoNest does not require costly proprietary hardware. The software engine works seamlessly with low-cost ESP32 microcontrollers or in pure software citizen-reporting mode.
           </p>
         </div>
 
@@ -1414,22 +1417,261 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Institutional Footer */}
-      <footer className="relative z-10 py-8 bg-white border-t border-slate-200 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-lg bg-slate-900 flex items-center justify-center text-white text-[11px] font-extrabold">
-              S
+      {/* Enterprise-Grade Institutional Footer */}
+      <footer className="relative z-10 bg-slate-950 text-slate-300 border-t border-slate-800/80 overflow-hidden font-sans">
+        {/* Top vibrant glowing laser accent line */}
+        <div className="h-[2.5px] bg-gradient-to-r from-emerald-500 via-teal-400 via-sky-400 via-indigo-500 to-emerald-400 w-full" />
+        
+        {/* Ambient subtle glow */}
+        <div className="absolute top-0 left-1/3 right-1/3 h-24 bg-gradient-to-b from-emerald-500/10 to-transparent blur-3xl pointer-events-none" />
+
+        {/* Live Hardware Telemetry Banner */}
+        <div className="border-b border-slate-800/80 bg-slate-900/60 px-4 sm:px-6 py-4">
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-4 text-xs">
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-800/80 text-emerald-300 font-semibold shadow-2xs">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span>SYSTEM OPERATIONAL: 12 IOT STATIONS ONLINE</span>
+              </div>
+              <span className="hidden sm:inline text-slate-700">•</span>
+              <div className="flex items-center gap-1.5 text-slate-300">
+                <span className="text-slate-400 font-medium">Loop Integrity:</span>
+                <span className="font-mono font-bold text-emerald-400">98.4%</span>
+              </div>
+              <span className="hidden sm:inline text-slate-700">•</span>
+              <div className="flex items-center gap-1.5 text-slate-300">
+                <span className="text-slate-400 font-medium">Avg SLA Turnaround:</span>
+                <span className="font-mono font-bold text-slate-100">14.2 min</span>
+              </div>
+              <span className="hidden sm:inline text-slate-700">•</span>
+              <div className="flex items-center gap-1.5 text-slate-300">
+                <span className="text-slate-400 font-medium">Landfill Diversion:</span>
+                <span className="font-mono font-bold text-sky-400">68.4%</span>
+              </div>
             </div>
-            <span className="font-bold text-slate-900">SwaLoop Autonomous Campus Operations Platform</span>
-          </div>
 
-          <div className="text-[11px] font-mono text-slate-400">
-            DETECT → CLASSIFY → VERIFY → ACT → PROVE → MEASURE
+            <div className="flex items-center gap-2 font-mono text-[11px] text-slate-400">
+              <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700/80 text-slate-300">ESP32 Telemetry</span>
+              <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700/80 text-slate-300">LoRa / Wi-Fi Mesh</span>
+              <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700/80 text-slate-300">Zero-GPS Spoof</span>
+            </div>
           </div>
+        </div>
 
-          <div className="text-[11px] text-slate-500">
-            © 2026 SwaLoop Architecture Team • MIT License
+        {/* Main Footer Content Grid */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+            {/* Column 1: Brand & Identity (4 Cols) */}
+            <div className="lg:col-span-4 space-y-4">
+              <Link to="/" className="flex items-center gap-3 group">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1 border border-slate-700 shadow-md group-hover:scale-105 transition-transform overflow-hidden">
+                  <img src="/logo.png" alt="EcoNest Logo" className="w-full h-full object-contain" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-extrabold text-xl text-white tracking-tight">EcoNest</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/80 font-bold">
+                      CAMPUS OS
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 font-medium">Every waste event. One verified loop.</p>
+                </div>
+              </Link>
+
+              <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
+                Autonomous institutional sanitation governance, multi-stream AI classification, and cryptographic station verification engineered for universities, hospitals, and smart corporate facilities.
+              </p>
+
+              {/* Direct Role Switcher Shortcut Pills */}
+              <div className="pt-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300 block mb-2 font-mono">
+                  Direct Role Consoles
+                </span>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <button
+                    onClick={() => navigate('/dashboard')}
+                    className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition-colors cursor-pointer text-left"
+                  >
+                    <Briefcase className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span className="truncate">Facility Manager</span>
+                  </button>
+                  <button
+                    onClick={() => navigate('/collection')}
+                    className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition-colors cursor-pointer text-left"
+                  >
+                    <HardHat className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span className="truncate">Field Crew (PWA)</span>
+                  </button>
+                  <button
+                    onClick={() => navigate('/student-report')}
+                    className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition-colors cursor-pointer text-left"
+                  >
+                    <GraduationCap className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                    <span className="truncate">Citizen Incident</span>
+                  </button>
+                  <button
+                    onClick={() => navigate('/dashboard')}
+                    className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition-colors cursor-pointer text-left"
+                  >
+                    <Landmark className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                    <span className="truncate">Campus Admin</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Column 2: Operations Platform (3 Cols) */}
+            <div className="lg:col-span-3 space-y-3">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono">
+                Operations Platform
+              </h4>
+              <ul className="space-y-2 text-xs">
+                <li>
+                  <Link to="/dashboard" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-emerald-500" />
+                    <span>Real-Time Operations Dashboard</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/events" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-emerald-500" />
+                    <span>Waste Event Passports Ledger</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/stations" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-emerald-500" />
+                    <span>Smart Station Fleet Telemetry</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/map" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-emerald-500" />
+                    <span>Geospatial Campus GIS Map</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/collection" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-emerald-500" />
+                    <span>Collection Route & Task Queue</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sanitation" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-emerald-500" />
+                    <span>Sanitation & Disinfection Cycles</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/exceptions" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-emerald-500" />
+                    <span>Exception Engine Triage Center</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 3: AI & Hardware Pillars (3 Cols) */}
+            <div className="lg:col-span-3 space-y-3">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono">
+                AI & IoT Architecture
+              </h4>
+              <ul className="space-y-2 text-xs">
+                <li>
+                  <Link to="/classifier" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-sky-400" />
+                    <span>Gemini 1.5 Flash Vision Studio</span>
+                  </Link>
+                </li>
+                <li>
+                  <a href="#loop" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-sky-400" />
+                    <span>6-Stage Closed Verification Loop</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#passport" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-sky-400" />
+                    <span>Waste Event Passport Anatomy</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#iot" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-sky-400" />
+                    <span>ESP32 Ultrasonic Sonar Telemetry</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#iot" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-sky-400" />
+                    <span>Cryptographic Station QR Tokens</span>
+                  </a>
+                </li>
+                <li>
+                  <Link to="/analytics" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-sky-400" />
+                    <span>Campus Quality Score & Trends</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 4: Compliance & Accreditation (2 Cols) */}
+            <div className="lg:col-span-2 space-y-3">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono">
+                Governance & ESG
+              </h4>
+              <ul className="space-y-2 text-xs">
+                <li>
+                  <Link to="/reports" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-indigo-400" />
+                    <span>NAAC Criterion 7.1.3 Briefing</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/reports" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-indigo-400" />
+                    <span>AICTE Green Campus Audit</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/reports" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-indigo-400" />
+                    <span>UGC Green Policy Compliance</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/reports" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-indigo-400" />
+                    <span>ISO 14001 Standards</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/login" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-indigo-400" />
+                    <span>Evaluation Demo Accounts</span>
+                  </Link>
+                </li>
+                <li>
+                  <a href="http://localhost:5000/api/health" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white hover:underline flex items-center gap-1.5 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-indigo-400" />
+                    <span>API Health Diagnostic</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Micro-Bar: Centered Copyright Only */}
+        <div className="border-t border-slate-900 bg-black/60 px-4 sm:px-6 py-5 text-xs text-slate-400">
+          <div className="max-w-7xl mx-auto flex items-center justify-center text-center">
+            <span className="text-slate-400 text-xs font-medium tracking-wide">
+              © 2026 EcoNest. All rights reserved.
+            </span>
           </div>
         </div>
       </footer>

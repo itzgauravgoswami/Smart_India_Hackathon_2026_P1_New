@@ -1,4 +1,4 @@
-# SwaLoop — Hackathon Live Presentation Script
+# EcoNest — Hackathon Live Presentation Script
 
 Follow this exact 12-step script to demonstrate the complete verified loop to evaluators within 3–4 minutes:
 
@@ -7,7 +7,7 @@ Follow this exact 12-step script to demonstrate the complete verified loop to ev
 ### Step 1: Open the Product Home (`/`)
 - Point out the institutional brand, the defining tagline: **"Every waste event. One verified loop."**
 - Walk through the 6-stage operational framework: `DETECT → CLASSIFY → VERIFY → ACT → PROVE → MEASURE`.
-- Emphasize the core differentiator: *"SwaLoop is not another smart dustbin. It is an operational governance platform."*
+- Emphasize the core differentiator: *"EcoNest is not another smart dustbin. It is an operational governance platform."*
 
 ---
 
@@ -46,7 +46,7 @@ Follow this exact 12-step script to demonstrate the complete verified loop to ev
 - Toggle on the **"Worker Mobile View"** to show how field sanitation workers interact:
   - Big high-contrast card for `TASK #1048`.
   - Tap **"START TASK"**.
-  - Tap **"SCAN / ENTER STATION QR"** — validate `SWALOOP-QR-WS-004`.
+  - Tap **"SCAN / ENTER STATION QR"** — validate `ECONEST-QR-WS-004`.
   - Tap **"MARK COLLECTION COMPLETE"** with photo proof attached.
 
 ---
@@ -75,4 +75,4 @@ Follow this exact 12-step script to demonstrate the complete verified loop to ev
 ### Step 8: Generate AI Operational Briefing (`/reports`)
 - Select **"Daily Operations Briefing"** and click **"Generate AI Briefing"**.
 - Show the concise, data-driven narrative synthesized for the Chief Facility Officer.
-- Conclude: *"SwaLoop bridges the visibility gap between detection, physical collection, and verification."*
+- Conclude: *"EcoNest bridges the visibility gap between detection, physical collection, and verification."*

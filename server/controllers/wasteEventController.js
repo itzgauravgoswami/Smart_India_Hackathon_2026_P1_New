@@ -91,7 +91,7 @@ export async function createEvent(req, res) {
     const station = (await dataStore.getStationById(stationId)) || {
       stationId: stationId || 'WS-001',
       name: location || 'Campus Main Station',
-      qrCode: `SWALOOP-QR-${stationId || 'WS-001'}`
+      qrCode: `ECONEST-QR-${stationId || 'WS-001'}`
     };
 
     const eventId = `WS-${Math.floor(10000 + Math.random() * 90000)}`;
@@ -340,7 +340,7 @@ export async function updateEventStatus(req, res) {
         timeString: timeStr,
         action: 'Event resolved',
         description: 'Operational loop closed and verified.',
-        actor: 'SwaLoop Loop Engine',
+        actor: 'EcoNest Loop Engine',
         icon: 'shield-check'
       });
     }

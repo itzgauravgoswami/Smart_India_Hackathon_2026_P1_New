@@ -1,8 +1,23 @@
-# SwaLoop — Every waste event. One verified loop.
+<p align="center">
+  <img src="client/public/logo.png" alt="EcoNest Logo" width="140" style="border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);" />
+</p>
 
-> **Autonomous Smart Campus Waste Management, AI Stream Classification, and Verified Sanitation Governance Platform**  
-> Designed for Universities, Smart Campuses, Healthcare Complexes, and Municipal Institutions.  
-> Aligned with **NAAC Criterion 7.1.3** (Institutional Values & Social Responsibilities) and **AICTE / UGC Green Campus Directives**.
+<h1 align="center">EcoNest — Every waste event. One verified loop.</h1>
+
+<p align="center">
+  <strong>Autonomous Smart Campus Waste Management, AI Stream Classification, and Verified Sanitation Governance Platform</strong><br>
+  Designed for Universities, Smart Campuses, Healthcare Complexes, and Municipal Institutions.<br>
+  Aligned with <strong>NAAC Criterion 7.1.3</strong> (Institutional Values & Social Responsibilities) and <strong>AICTE / UGC Green Campus Directives</strong>.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-EcoNest-10B981?style=flat-square" alt="Platform" />
+  <img src="https://img.shields.io/badge/React-19.2-61DAFB?style=flat-square&logo=react" alt="React" />
+  <img src="https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=node.js" alt="Node" />
+  <img src="https://img.shields.io/badge/TailwindCSS-v4-38B2AC?style=flat-square&logo=tailwind-css" alt="Tailwind" />
+  <img src="https://img.shields.io/badge/AI-Gemini%201.5%20Flash-4285F4?style=flat-square&logo=google" alt="Gemini" />
+  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License" />
+</p>
 
 ---
 
@@ -10,11 +25,11 @@
 
 Traditional institutional waste management suffers from a **broken chain of custody**: bins overflow without warning, workers upload unverified photos from across campus, contamination destroys recyclable streams, and administrators lack verifiable audit data for green accreditations.
 
-**SwaLoop** transforms campus waste management from passive disposal into an **immutable, 6-stage closed operational loop**:
+**EcoNest** transforms campus waste management from passive disposal into an **immutable, 6-stage closed operational loop**:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   THE SWALOOP LOOP                                     │
+│                                   THE ECONEST LOOP                                     │
 │                                                                                        │
 │   [01] DETECT  ──►  [02] CLASSIFY  ──►  [03] VERIFY  ──►  [04] ACT  ──►  [05] PROVE  ──► [06] MEASURE  │
 │    Ultrasonic        Vision AI           Station QR        Worker         Photo Proof     Institutional │
@@ -29,7 +44,7 @@ Every single waste event generates a cryptographic **Waste Event Passport**, and
 ## 🌟 The Two Defining Innovations
 
 ### 1. The Waste Event Passport
-Unlike generic ticket trackers, every waste event in SwaLoop produces an audited digital passport containing:
+Unlike generic ticket trackers, every waste event in EcoNest produces an audited digital passport containing:
 - **Unique Event ID**: e.g., `#WS-10482`
 - **Location Coordinates**: Station ID, zone, building name, and indoor/outdoor geolocation
 - **AI Classification**: Primary stream (`Dry Recyclable`, `Wet Organic`, `Sanitary / Biomedical`, `Hazardous`, `E-Waste`) with confidence scores
@@ -182,7 +197,7 @@ Switch seamlessly between 4 distinct campus roles via the top 1-click role switc
 |---|---|
 | **Frontend Framework** | React 19, Vite 8, React Router v7 |
 | **Styling & UI Tokens** | Tailwind CSS v4, Custom CSS Design System, High-Contrast Blueprint Theme |
-| **Icons & Visuals** | Lucide React (100% SVG, strictly zero emojis), Interactive Vector Micro-Consoles |
+| **Branding & Visuals** | Official `logo.png` Brand Asset, Lucide React (100% SVG, strictly zero emojis), Interactive Vector Micro-Consoles |
 | **Data Visualization** | Recharts (Responsive bar charts, pie charts, telemetry curves) |
 | **Geospatial GIS** | Leaflet, React Leaflet |
 | **Backend Runtime** | Node.js, Express.js (ES Modules) |
@@ -197,8 +212,11 @@ Switch seamlessly between 4 distinct campus roles via the top 1-click role switc
 ## 📂 Project Structure
 
 ```text
-swaloop/
+econest/
 ├── client/                             # React 19 + Vite Frontend Application
+│   ├── public/                         # Public Assets
+│   │   ├── logo.png                    # Official EcoNest Brand Logo
+│   │   └── favicon.svg
 │   ├── src/
 │   │   ├── components/                 # Reusable UI Components
 │   │   │   ├── EventTimeline.jsx       # Timestamped immutable event lifecycle
@@ -206,7 +224,7 @@ swaloop/
 │   │   │   ├── Navbar.jsx              # Single-line, sticky high-contrast navigation bar
 │   │   │   ├── NotificationDrawer.jsx  # Real-time alert notifications drawer
 │   │   │   ├── PageHeader.jsx          # Standardized operational header
-│   │   │   ├── Sidebar.jsx             # High-contrast navigation sidebar
+│   │   │   ├── Sidebar.jsx             # High-contrast navigation sidebar with logo.png
 │   │   │   └── StatusBadge.jsx         # Status and severity pills
 │   │   ├── pages/                      # 12 Core Platform Pages
 │   │   │   ├── HomePage.jsx            # 7-section architectural product landing page
@@ -260,9 +278,9 @@ swaloop/
 │
 ├── iot/                                # Hardware Firmware & Telemetry Simulation
 │   ├── esp32/                          # Arduino C++ sketch for ESP32 + HC-SR04
-│   │   └── swaloop_esp32.ino
+│   │   └── firmware.ino
 │   └── sensor-simulation/              # Headless Node.js sensor telemetry generator
-│       └── simulateSensors.js
+│       └── simulate.js
 │
 ├── docs/                               # Architecture blueprints, API specs & demo guides
 ├── .env.example                        # Environment variables template
@@ -282,8 +300,8 @@ swaloop/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/swaloop.git
-cd swaloop
+git clone https://github.com/your-username/econest.git
+cd econest
 ```
 
 ### 2. Install All Dependencies
@@ -300,42 +318,53 @@ cp .env.example server/.env
 Default parameters in `server/.env`:
 ```env
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/swaloop
-JWT_SECRET=swaloop_super_secret_jwt_key_2026_verified_loop
+MONGODB_URI=mongodb://localhost:27017/econest
+JWT_SECRET=econest_super_secret_jwt_key_2026_verified_loop
 GEMINI_API_KEY=your_gemini_api_key_here
 CLIENT_URL=http://localhost:5173
 DEMO_MODE=true
 ```
 
 ### 4. Run Development Servers
-Open two terminal windows:
 
-**Terminal 1 — Backend API Server (Port 5000):**
-```bash
-cd server
-npm run dev
-```
+#### Option A: Standalone Zero-Backend Mode (Recommended for Online Hosting & Demos)
+You **do not need to deploy or run any backend server**. The EcoNest frontend is 100% autonomous, self-contained, and stateful:
+- Runs directly in the browser with realistic dummy data (`mockStore`) persisted in `localStorage`.
+- All features work: 4-role interactive dashboards, AI vision classifier, QR loop verification, exception engine triage, student incident reporting, and NAAC report generation.
+- Ready for immediate 1-click deployment on **Vercel**, **Netlify**, **Cloudflare Pages**, or **GitHub Pages** (pre-configured with `vercel.json` and `_redirects`).
 
-**Terminal 2 — Frontend Client (Port 5173):**
+To run locally in standalone mode:
 ```bash
 cd client
 npm run dev
 ```
+Visit **`http://localhost:5173`** in your browser.
 
+#### Option B: Full-Stack Mode with Live Backend (Optional)
+If you want to run the Node.js/Express backend server locally:
+```bash
+# Terminal 1 — Backend API Server (Port 5000):
+cd server
+npm run dev
+
+# Terminal 2 — Frontend Client (Port 5173):
+cd client
+npm run dev
+```
 Visit **`http://localhost:5173`** in your browser.
 
 ---
 
 ## 🔑 Pre-Configured Demo Accounts & Roles
 
-SwaLoop includes **Zero-Dependency 1-Click Role Switching**. You can switch roles instantaneously using the role selector pill bar on the dashboard or log in with these pre-seeded accounts:
+EcoNest includes **Zero-Dependency 1-Click Role Switching**. You can switch roles instantaneously using the role selector pill bar on the dashboard or log in with these pre-seeded accounts:
 
 | Role | Person / Title | Email | Password | Primary Capabilities |
 |---|---|---|---|---|
-| **Facility Manager** | Ananya Iyer | `manager@swaloop.campus` | `manager123` | Complete operations overview, live telemetry, exception triage, and crew dispatch. |
-| **Field Crew** | Rahul Verma | `worker1@swaloop.campus` | `worker123` | Mobile-first console, route task execution, QR station validation, photo proof upload. |
-| **Student / Citizen** | Aarav Patel | `student@swaloop.campus` | `student123` | Issue reporting, tracking ticket statuses, eco-leaderboard, waste sorting guide. |
-| **Campus Admin** | Dr. Rajesh Sharma | `admin@swaloop.campus` | `admin123` | Hardware fleet monitor, governance logs, NAAC 7.1.3 accreditation audit generator. |
+| **Facility Manager** | Ananya Iyer | `manager@econest.campus` | `manager123` | Complete operations overview, live telemetry, exception triage, and crew dispatch. |
+| **Field Crew** | Rahul Verma | `worker1@econest.campus` | `worker123` | Mobile-first console, route task execution, QR station validation, photo proof upload. |
+| **Student / Citizen** | Aarav Patel | `student@econest.campus` | `student123` | Issue reporting, tracking ticket statuses, eco-leaderboard, waste sorting guide. |
+| **Campus Admin** | Dr. Rajesh Sharma | `admin@econest.campus` | `admin123` | Hardware fleet monitor, governance logs, NAAC 7.1.3 accreditation audit generator. |
 
 ---
 
@@ -386,7 +415,7 @@ The backend exposes a REST API at `http://localhost:5000/api`:
 ## 🛠️ Hardware & IoT Subsystem
 
 ### 1. Ultrasonic Fill Telemetry (ESP32)
-Located in `iot/esp32/swaloop_esp32.ino`:
+Located in `iot/esp32/firmware.ino`:
 - Uses the **HC-SR04 ultrasonic distance sensor** installed inside station hopper lids.
 - Emits 40 kHz ultrasound bursts; calculates bin fill level by measuring echo return delay:
   $$\text{Fill \%} = \frac{\text{Station Height} - \text{Measured Distance}}{\text{Station Height}} \times 100$$
@@ -394,17 +423,17 @@ Located in `iot/esp32/swaloop_esp32.ino`:
 - Low-power deep sleep cycles ensure multi-month battery operation.
 
 ### 2. Cryptographic Station QR Tokens
-- Each physical bin hopper is permanently marked with an encrypted QR identity token (`STATION-WS-XXX`).
+- Each physical bin hopper is permanently marked with an encrypted QR identity token (`ECONEST-QR-WS-XXX`).
 - Sanitation workers must physically scan this token with their mobile device camera at the bin location.
 - The system verifies the station token against the server's cryptographic registry, eliminating remote click-farming and GPS spoofing.
 
 ### 3. Headless Telemetry Simulator
-Located in `iot/sensor-simulation/simulateSensors.js`:
+Located in `iot/sensor-simulation/simulate.js`:
 - Generates realistic campus waste accumulation curves for all 12 stations based on time-of-day traffic (e.g., cafeteria spikes during 12:30–14:30 lunch hours).
 - Run it headless to simulate live IoT telemetry:
   ```bash
   cd iot/sensor-simulation
-  node simulateSensors.js
+  node simulate.js
   ```
 
 ---
@@ -414,10 +443,11 @@ Located in `iot/sensor-simulation/simulateSensors.js`:
 Follow this 6-step script during evaluations or hackathon demos:
 
 1. **Explore the Landing Page (`/`)**:
+   - Notice the official **EcoNest** logo and single-line navigation bar.
    - Inspect the interactive hero preview ticket (`#WS-10482`). Click **"Simulate Field Crew QR Scan"** to watch the status seal live from *Pending* to *✓ QR & Photo Sealed*.
    - Scroll to Section 6 to view the interactive vector micro-consoles for the ESP32 Ultrasonic Sensor and Station QR Scanner.
 2. **Access the Operations Dashboard (`/dashboard`)**:
-   - Click **"Go to Platform"** in the navigation bar.
+   - Click **"Go to Platform"** or **"Launch Console"** in the navigation bar.
    - Use the top role switcher to toggle between **Facility Manager**, **Field Crew**, **Student / Citizen**, and **Campus Admin**.
 3. **Execute a Real Collection Loop as Field Crew**:
    - Switch to **"Field Crew"** role.
@@ -441,7 +471,7 @@ Follow this 6-step script during evaluations or hackathon demos:
 
 ## 🔒 Security, Integrity & Resilience
 
-- **Zero-Dependency Resilience**: If MongoDB is unavailable or unconfigured, SwaLoop automatically transitions to its internal high-fidelity campus repository (`dataStore.js`), guaranteeing 100% demo uptime.
+- **Zero-Dependency Resilience**: If MongoDB is unavailable or unconfigured, EcoNest automatically transitions to its internal high-fidelity campus repository (`dataStore.js`), guaranteeing 100% demo uptime.
 - **Fail-Safe AI Inference**: If the external Gemini API quota is reached or network is unavailable, the system automatically uses its local calibrated neural classifier.
 - **Role-Based Access Control (RBAC)**: All sensitive routes and dispatch actions are strictly enforced via JWT claims.
 - **Strict Accessibility & Contrast**: The UI is built using high-contrast slate palettes (`#0B0F19`, `#CBD5E1`), crisp borders, and official Lucide SVG icons.

@@ -154,7 +154,7 @@ Priority Actions:
           </div>
 
           <div className="mt-8 pt-6 border-t border-slate-100 max-w-3xl mx-auto flex items-center justify-between text-[11px] text-slate-400 font-mono">
-            <span>SwaLoop Facility Governance Platform</span>
+            <span>EcoNest Facility Governance Platform</span>
             <span>Verified Loop SLA: 93.2%</span>
           </div>
         </div>

@@ -19,7 +19,7 @@ import {
 
 dotenv.config();
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/swaloop';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/econest';
 
 async function seed() {
   try {
@@ -46,7 +46,7 @@ async function seed() {
     await Exception.insertMany(SEED_EXCEPTIONS);
     await Notification.insertMany(SEED_NOTIFICATIONS);
 
-    console.log('✓ Successfully seeded SwaLoop database with realistic campus operational data.');
+    console.log('✓ Successfully seeded EcoNest database with realistic campus operational data.');
     process.exit(0);
   } catch (err) {
     console.error('Seeding encountered an issue:', err.message);

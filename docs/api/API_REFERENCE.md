@@ -1,4 +1,4 @@
-# SwaLoop REST API Reference
+# EcoNest REST API Reference
 
 Base URL: `http://localhost:5000/api`
 

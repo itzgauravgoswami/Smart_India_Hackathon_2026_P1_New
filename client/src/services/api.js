@@ -2,8 +2,30 @@ import { mockStore } from './mockData';
 
 const API_BASE = '/api';
 
+// Detect whether we are running in standalone mode (e.g. hosted online without backend, or localhost in offline mock mode)
+// If hosted on any public/staging domain (e.g. vercel.app, netlify.app, github.io, etc.), backend is not deployed online.
+const isRemoteHost =
+  typeof window !== 'undefined' &&
+  window.location.hostname !== 'localhost' &&
+  window.location.hostname !== '127.0.0.1' &&
+  window.location.hostname !== '';
+
+// Global backend connectivity status flag:
+// false = standalone mock mode (active immediately on remote host, or after first local connection test fails)
+// null = untested (on localhost)
+// true = live backend verified
+let isBackendAvailable = isRemoteHost ? false : null;
+
+// Allow developer or evaluator to force mock mode or live backend if desired
+if (typeof window !== 'undefined') {
+  const forced = localStorage.getItem('econest_standalone_mode');
+  if (forced === 'true' || forced === 'mock') {
+    isBackendAvailable = false;
+  }
+}
+
 export function getAuthHeaders() {
-  const token = localStorage.getItem('swaloop_token');
+  const token = localStorage.getItem('econest_token') || localStorage.getItem('swaloop_token');
   const headers = {};
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
@@ -12,6 +34,15 @@ export function getAuthHeaders() {
 }
 
 async function request(endpoint, options = {}, fallbackFn = null) {
+  // 1. FAST PATH: If standalone / backend offline, immediately return mock fallback with 0ms delay
+  if (isBackendAvailable === false) {
+    if (fallbackFn) {
+      return Promise.resolve(fallbackFn());
+    }
+    return { success: true };
+  }
+
+  // 2. LIVE ATTEMPT (only on localhost when not explicitly in standalone mode)
   try {
     const headers = {
       ...getAuthHeaders(),
@@ -23,7 +54,8 @@ async function request(endpoint, options = {}, fallbackFn = null) {
     }
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3500);
+    // Fast non-blocking timeout (600ms) on localhost so user never experiences lag if backend is not started
+    const timeoutId = setTimeout(() => controller.abort(), 600);
 
     const response = await fetch(`${API_BASE}${endpoint}`, {
       ...options,
@@ -33,14 +65,18 @@ async function request(endpoint, options = {}, fallbackFn = null) {
     clearTimeout(timeoutId);
 
     if (response.ok) {
+      isBackendAvailable = true;
       return await response.json();
     }
   } catch (err) {
-    // Fall back smoothly to client mock store if server is slow or disconnected
+    // If connection refused, timed out, or network error, permanently switch to standalone mock store for this session
+    isBackendAvailable = false;
+    console.info('[EcoNest] Running in Autonomous Standalone Client Mode (Mock Store Active)');
   }
 
+  // 3. Fall back smoothly to client mock store
   if (fallbackFn) {
-    return fallbackFn();
+    return Promise.resolve(fallbackFn());
   }
 
   return { success: true };
@@ -76,7 +112,7 @@ export const api = {
           name: nameMap[role],
           email,
           role,
-          department: role === 'worker' ? 'Grounds & Sanitation Crew' : 'Facility Management',
+          department: role === 'worker' ? 'Grounds & Sanitation Crew' : role === 'student' ? 'Environmental Science & Student Council' : role === 'admin' ? 'Campus Administration Directorate' : 'Facility Operations',
           campus: 'Main Smart Campus'
         };
 
@@ -91,7 +127,7 @@ export const api = {
 
   getMe: () =>
     request('/auth/me', {}, () => {
-      const saved = localStorage.getItem('swaloop_user');
+      const saved = localStorage.getItem('econest_user') || localStorage.getItem('swaloop_user');
       if (saved) {
         return { success: true, user: JSON.parse(saved) };
       }
@@ -100,7 +136,7 @@ export const api = {
         user: {
           id: 'usr-002',
           name: 'Ananya Iyer',
-          email: 'manager@swaloop.campus',
+          email: 'manager@econest.campus',
           role: 'manager',
           department: 'Facility Operations',
           campus: 'Main Smart Campus'
@@ -112,10 +148,10 @@ export const api = {
     request('/auth/demo-accounts', {}, () => ({
       success: true,
       accounts: [
-        { role: 'manager', email: 'manager@swaloop.campus', name: 'Ananya Iyer', desc: 'Facility Manager (Full Operations)' },
-        { role: 'worker', email: 'worker1@swaloop.campus', name: 'Rahul Verma', desc: 'Sanitation Crew (Mobile Tasks & QR)' },
-        { role: 'student', email: 'student@swaloop.campus', name: 'Aarav Patel', desc: 'Citizen / Student (Issue Logging)' },
-        { role: 'admin', email: 'admin@swaloop.campus', name: 'Dr. Rajesh Sharma', desc: 'Campus Administration (Executive)' }
+        { role: 'manager', email: 'manager@econest.campus', name: 'Ananya Iyer', desc: 'Facility Manager (Full Operations)' },
+        { role: 'worker', email: 'worker1@econest.campus', name: 'Rahul Verma', desc: 'Sanitation Crew (Mobile Tasks & QR)' },
+        { role: 'student', email: 'student@econest.campus', name: 'Aarav Patel', desc: 'Citizen / Student (Issue Logging)' },
+        { role: 'admin', email: 'admin@econest.campus', name: 'Dr. Rajesh Sharma', desc: 'Campus Administration (Executive)' }
       ]
     })),
 
@@ -170,18 +206,14 @@ export const api = {
         method: 'PATCH',
         body: JSON.stringify(data)
       },
-      () => mockStore.verifyEvent(id, data)
+      () => mockStore.updateEventStatus(id, data)
     ),
 
   // STATIONS
   getStations: () => request('/stations', {}, () => mockStore.getStations()),
 
   getStationById: (id) =>
-    request(`/stations/${id}`, {}, () => {
-      const res = mockStore.getStations();
-      const st = res.stations.find((s) => s.stationId === id || s._id === id);
-      return { success: true, station: st };
-    }),
+    request(`/stations/${id}`, {}, () => mockStore.getStationById(id)),
 
   updateStation: (id, updates) =>
     request(
@@ -200,14 +232,7 @@ export const api = {
         method: 'POST',
         body: JSON.stringify(data)
       },
-      () => {
-        const fill = data.fillLevel ?? 92;
-        return mockStore.updateStation(id, {
-          fillPercentage: fill,
-          status: fill >= 85 ? 'overflow' : fill >= 70 ? 'at_risk' : 'healthy',
-          lastTelemetryReceivedAt: new Date().toISOString()
-        });
-      }
+      () => mockStore.simulateTelemetry(id, data)
     ),
 
   // EXCEPTION ENGINE
@@ -223,7 +248,7 @@ export const api = {
         method: 'POST',
         body: JSON.stringify(data)
       },
-      () => ({ success: true, exception: data })
+      () => mockStore.createException(data)
     ),
 
   updateException: (id, data) =>
@@ -256,7 +281,7 @@ export const api = {
         method: 'POST',
         body: JSON.stringify(data)
       },
-      () => ({ success: true, task: data })
+      () => mockStore.createTask(data)
     ),
 
   updateTask: (id, data) =>
@@ -325,10 +350,10 @@ export const api = {
     ),
 
   // AUDIT LOGS
-  getAuditLogs: () => request('/audit-logs', {}, () => ({ success: true, logs: [] })),
+  getAuditLogs: () => request('/audit-logs', {}, () => mockStore.getAuditLogs()),
 
   // HEALTH
-  getHealth: () => request('/health', {}, () => ({ success: true, status: 'mock_healthy' }))
+  getHealth: () => request('/health', {}, () => mockStore.getHealth())
 };
 
 export default api;

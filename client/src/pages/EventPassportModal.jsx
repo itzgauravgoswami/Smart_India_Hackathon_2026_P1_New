@@ -40,7 +40,7 @@ export default function EventPassportModal({ eventId, onClose, onEventUpdated })
       if (res.success) {
         setEventData(res.event);
         setStationData(res.station);
-        setSimulatedQr(res.station?.qrCode || res.event.qrCodeToken || `SWALOOP-QR-${res.event.stationId}`);
+        setSimulatedQr(res.station?.qrCode || res.event.qrCodeToken || `ECONEST-QR-${res.event.stationId}`);
       }
     } catch (err) {
       console.error('Failed to load event passport:', err);

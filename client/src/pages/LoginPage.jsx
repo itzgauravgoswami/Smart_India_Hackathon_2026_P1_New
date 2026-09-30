@@ -6,7 +6,7 @@ import { useAuth } from '../hooks/useAuth';
 export default function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [email, setEmail] = useState('manager@swaloop.campus');
+  const [email, setEmail] = useState('manager@econest.campus');
   const [password, setPassword] = useState('manager123');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -15,28 +15,28 @@ export default function LoginPage() {
     {
       role: 'Facility Manager',
       name: 'Ananya Iyer',
-      email: 'manager@swaloop.campus',
+      email: 'manager@econest.campus',
       password: 'manager123',
       desc: 'Exceptions, analytics, dispatch & station telemetry'
     },
     {
       role: 'Sanitation Worker',
       name: 'Rahul Verma',
-      email: 'worker1@swaloop.campus',
+      email: 'worker1@econest.campus',
       password: 'worker123',
       desc: 'Mobile task queue, QR station check-in & photo proof'
     },
     {
       role: 'Campus Student',
       name: 'Aarav Patel',
-      email: 'student@swaloop.campus',
+      email: 'student@econest.campus',
       password: 'student123',
       desc: 'Report overflows, photo upload & citizen tracking'
     },
     {
       role: 'Campus Admin',
       name: 'Dr. Rajesh Sharma',
-      email: 'admin@swaloop.campus',
+      email: 'admin@econest.campus',
       password: 'admin123',
       desc: 'User permissions, system audit logs & security'
     }
@@ -75,16 +75,12 @@ export default function LoginPage() {
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         {/* Logo */}
-        <div className="w-12 h-12 rounded-xl bg-slate-900 mx-auto flex items-center justify-center text-white shadow-sm mb-3">
-          <svg className="w-7 h-7" viewBox="0 0 32 32" fill="none">
-            <path d="M11 16C11 13.2386 13.2386 11 16 11C18.7614 11 21 13.2386 21 16C21 18.7614 18.7614 21 16 21C13.5 21 11.5 19.3 11.1 17" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round"/>
-            <circle cx="16" cy="16" r="2" fill="#10B981"/>
-            <path d="M20 14L22.5 16.5L25 12" stroke="#38BDF8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+        <div className="w-14 h-14 rounded-2xl bg-white mx-auto flex items-center justify-center p-1 border border-slate-200 shadow-sm mb-3 overflow-hidden">
+          <img src="/logo.png" alt="EcoNest Logo" className="w-full h-full object-contain" />
         </div>
 
         <h1 className="text-2xl font-bold tracking-tight text-slate-900">
-          SwaLoop
+          EcoNest
         </h1>
         <p className="text-xs text-slate-500 mt-1 font-medium tracking-wide">
           Every waste event. One verified loop.
@@ -111,7 +107,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@swaloop.campus"
+                  placeholder="name@econest.campus"
                   className="w-full pl-9 pr-3 py-2 rounded-lg border border-slate-200 focus:outline-hidden focus:ring-1 focus:ring-slate-400 font-medium"
                 />
               </div>

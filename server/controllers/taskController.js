@@ -161,7 +161,7 @@ export async function updateTask(req, res) {
             timeString: timeStr,
             action: 'Event resolved',
             description: 'Verified loop complete. Bin normalized.',
-            actor: 'SwaLoop Loop Engine',
+            actor: 'EcoNest Loop Engine',
             icon: 'shield-check'
           });
 

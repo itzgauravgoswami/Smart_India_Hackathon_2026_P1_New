@@ -1,5 +1,5 @@
 /**
- * SwaLoop Headless IoT Sensor Telemetry Simulator
+ * EcoNest Headless IoT Sensor Telemetry Simulator
  * Simulates real-time fill level changes and heartbeat pulses across campus stations.
  */
 
@@ -27,5 +27,5 @@ async function simulateCycle() {
   }
 }
 
-console.log('Starting SwaLoop IoT Campus Telemetry Simulator (every 8s)...');
+console.log('Starting EcoNest IoT Campus Telemetry Simulator (every 8s)...');
 setInterval(simulateCycle, 8000);

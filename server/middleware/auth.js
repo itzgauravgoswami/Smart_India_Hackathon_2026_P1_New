@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import dataStore from '../services/dataStore.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'swaloop_super_secret_jwt_key_2026_verified_loop';
+const JWT_SECRET = process.env.JWT_SECRET || 'econest_super_secret_jwt_key_2026_verified_loop';
 
 export function generateToken(user) {
   return jwt.sign(

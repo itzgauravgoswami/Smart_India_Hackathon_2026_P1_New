@@ -81,7 +81,7 @@ export default function CollectionPage() {
     try {
       await api.updateTask(activeTask.taskId, {
         action: 'COMPLETE',
-        qrCodeScanned: qrInput || `SWALOOP-QR-${activeTask.stationId}`,
+        qrCodeScanned: qrInput || `ECONEST-QR-${activeTask.stationId}`,
         proofPhoto: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600&auto=format&fit=crop&q=80',
         notes: proofNote || 'Dispatched collection, validated QR, and normalized station.'
       });
@@ -223,7 +223,7 @@ export default function CollectionPage() {
                   <>
                     <button
                       onClick={() => {
-                        setQrInput(`SWALOOP-QR-${activeTask.stationId}`);
+                        setQrInput(`ECONEST-QR-${activeTask.stationId}`);
                         setQrModalOpen(true);
                       }}
                       className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs tracking-wide transition-colors flex items-center justify-center gap-2 shadow-xs"
@@ -368,7 +368,7 @@ export default function CollectionPage() {
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
-                    value={qrInput || `SWALOOP-QR-${activeTask?.stationId}`}
+                    value={qrInput || `ECONEST-QR-${activeTask?.stationId}`}
                     onChange={(e) => setQrInput(e.target.value)}
                     className="flex-1 px-3 py-2 text-xs font-mono border border-slate-300 rounded-md"
                   />

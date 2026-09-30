@@ -1,7 +1,7 @@
 // Comprehensive Campus Operational Mock Store
-// Provides 100% resilient dummy data and stateful offline operations for SwaLoop
+// Provides 100% resilient dummy data and stateful offline operations for EcoNest
 
-const STORAGE_KEY = 'swaloop_mock_db_v2';
+const STORAGE_KEY = 'econest_mock_db_v3';
 
 export const INITIAL_STATIONS = [
   {
@@ -727,6 +727,7 @@ function saveDb(db) {
 }
 
 export const mockStore = {
+  // --- STATIONS ---
   getStations: () => {
     const db = getDb();
     const stations = db.stations;
@@ -740,6 +741,12 @@ export const mockStore = {
     return { success: true, count: stations.length, stations, summary };
   },
 
+  getStationById: (id) => {
+    const db = getDb();
+    const station = db.stations.find(s => s.stationId === id || s._id === id);
+    return { success: true, station };
+  },
+
   updateStation: (id, updates) => {
     const db = getDb();
     const idx = db.stations.findIndex(s => s.stationId === id || s._id === id);
@@ -751,6 +758,27 @@ export const mockStore = {
     return { success: false, message: 'Station not found' };
   },
 
+  simulateTelemetry: (id, data = {}) => {
+    const db = getDb();
+    const idx = db.stations.findIndex(s => s.stationId === id || s._id === id);
+    if (idx !== -1) {
+      const fill = data.fillLevel ?? (db.stations[idx].fillPercentage >= 85 ? 42 : 92);
+      db.stations[idx] = {
+        ...db.stations[idx],
+        fillPercentage: fill,
+        status: fill >= 85 ? 'overflow' : fill >= 70 ? 'at_risk' : 'healthy',
+        lastTelemetryReceivedAt: new Date().toISOString()
+      };
+      if (db.stations[idx].bins) {
+        db.stations[idx].bins[0].fillLevel = fill;
+      }
+      saveDb(db);
+      return { success: true, station: db.stations[idx] };
+    }
+    return { success: false, message: 'Station not found' };
+  },
+
+  // --- EVENTS & PASSPORTS ---
   getEvents: (params = {}) => {
     const db = getDb();
     let events = [...db.events];
@@ -763,9 +791,9 @@ export const mockStore = {
     if (params.search) {
       const q = params.search.toLowerCase();
       events = events.filter(e =>
-        e.eventId.toLowerCase().includes(q) ||
-        e.stationName.toLowerCase().includes(q) ||
-        e.location.toLowerCase().includes(q)
+        (e.eventId && e.eventId.toLowerCase().includes(q)) ||
+        (e.stationName && e.stationName.toLowerCase().includes(q)) ||
+        (e.location && e.location.toLowerCase().includes(q))
       );
     }
     return { success: true, count: events.length, events };
@@ -775,7 +803,8 @@ export const mockStore = {
     const db = getDb();
     const event = db.events.find(e => e.eventId === id || e._id === id);
     if (event) {
-      return { success: true, event };
+      const station = db.stations.find(s => s.stationId === event.stationId || s._id === event.stationId);
+      return { success: true, event, station };
     }
     return { success: false, message: 'Event not found' };
   },
@@ -783,15 +812,16 @@ export const mockStore = {
   createEvent: (data) => {
     const db = getDb();
     const newId = `#WS-${Math.floor(10000 + Math.random() * 90000)}`;
+    const station = db.stations.find(s => s.stationId === data.stationId) || db.stations[0];
     const newEvent = {
       _id: `evt-${Date.now()}`,
       eventId: newId,
       timestamp: new Date().toISOString(),
       stationId: data.stationId || 'WS-004',
-      stationName: data.stationId === 'WS-001' ? 'Central Library Atrium' : (data.location || 'Block A Cafeteria Food Court'),
-      location: data.location || 'Campus Smart Station',
+      stationName: station ? station.name : (data.location || 'Block A Cafeteria Food Court'),
+      location: data.location || (station ? station.locationDescription : 'Campus Smart Station'),
       category: data.wasteCategory || 'dry',
-      primaryCategory: data.wasteCategory === 'wet' ? 'WET_ORGANIC' : 'DRY_RECYCLABLE',
+      primaryCategory: data.wasteCategory === 'wet' ? 'WET_ORGANIC' : data.wasteCategory === 'hazardous' ? 'HAZARDOUS' : 'DRY_RECYCLABLE',
       wasteStream: data.wasteCategory || 'dry',
       status: 'VERIFIED',
       fillAtCapture: 85,
@@ -802,9 +832,9 @@ export const mockStore = {
       qrCode: `${data.stationId || 'WS-004'}-AUTO-QR`,
       aiAnalysis: {
         confidenceScore: 0.95,
-        contaminationDetected: false,
-        contaminationSeverity: 'NONE',
-        detectedItems: [data.description || 'Segregated waste deposit logged by student'],
+        contaminationDetected: data.description?.toLowerCase().includes('contaminat') || false,
+        contaminationSeverity: data.description?.toLowerCase().includes('contaminat') ? 'MEDIUM' : 'NONE',
+        detectedItems: [data.description || 'Segregated waste deposit logged by citizen'],
         recommendedAction: 'Verify at next scheduled collection sweep.',
         source: 'gemini_vision'
       },
@@ -817,22 +847,44 @@ export const mockStore = {
     };
     db.events.unshift(newEvent);
     saveDb(db);
-    return { success: true, event: newEvent };
+    return { success: true, event: newEvent, station };
   },
 
-  verifyEvent: (id, data) => {
+  updateEventStatus: (id, data) => {
     const db = getDb();
     const idx = db.events.findIndex(e => e.eventId === id || e._id === id);
     if (idx !== -1) {
-      db.events[idx].status = 'VERIFIED';
-      db.events[idx].verificationScore = 98;
-      db.events[idx].verifiedBy = data.verifiedBy || 'Dr. Aris Thorne (Facility Manager)';
+      const ev = db.events[idx];
+      if (data.status) ev.status = data.status;
+      if (data.workerName || data.verifiedBy) ev.verifiedBy = data.workerName || data.verifiedBy;
+      if (data.proofPhoto) ev.imageUrl = data.proofPhoto;
+      if (data.notes) ev.notes = data.notes;
+      if (data.qrCodeScanned) {
+        ev.qrCode = data.qrCodeScanned;
+        ev.verificationScore = 98;
+        ev.verificationMethod = 'Physical QR Scan + Mobile Photo Proof';
+      }
+      if (data.status === 'RESOLVED') {
+        ev.timeline = ev.timeline.map(t => ({ ...t, status: 'COMPLETED' }));
+        if (!ev.timeline.some(t => t.stage === 'PROVE')) {
+          ev.timeline.push({ stage: 'PROVE', title: 'Photo timestamped with tamper-evident hash', time: 'Just now', status: 'COMPLETED' });
+        }
+        if (!ev.timeline.some(t => t.stage === 'MEASURE')) {
+          ev.timeline.push({ stage: 'MEASURE', title: 'Weight and diversion metrics registered in ledger', time: 'Just now', status: 'COMPLETED' });
+        }
+      }
       saveDb(db);
-      return { success: true, event: db.events[idx] };
+      const station = db.stations.find(s => s.stationId === ev.stationId);
+      return { success: true, event: ev, station };
     }
     return { success: false, message: 'Event not found' };
   },
 
+  verifyEvent: (id, data) => {
+    return mockStore.updateEventStatus(id, { ...data, status: data.status || 'VERIFIED' });
+  },
+
+  // --- EXCEPTIONS ---
   getExceptions: (params = {}) => {
     const db = getDb();
     let exceptions = [...db.exceptions];
@@ -853,6 +905,28 @@ export const mockStore = {
     return { success: true, count: exceptions.length, exceptions, counts };
   },
 
+  createException: (data) => {
+    const db = getDb();
+    const newId = `EX-${Math.floor(900 + Math.random() * 100)}`;
+    const newException = {
+      _id: `exp-${Date.now()}`,
+      exceptionId: newId,
+      title: data.title || 'Automated Anomaly Alert',
+      description: data.description || 'System anomaly logged for operational triage.',
+      type: data.type || 'OVERFLOW',
+      severity: data.severity || 'HIGH',
+      stationId: data.stationId || 'WS-001',
+      stationName: data.stationName || 'Central Library Atrium',
+      status: 'OPEN',
+      assignedTo: null,
+      createdAt: new Date().toISOString(),
+      resolutionNotes: ''
+    };
+    db.exceptions.unshift(newException);
+    saveDb(db);
+    return { success: true, exception: newException };
+  },
+
   updateException: (id, updates) => {
     const db = getDb();
     const idx = db.exceptions.findIndex(e => e.exceptionId === id || e._id === id);
@@ -864,22 +938,74 @@ export const mockStore = {
     return { success: false, message: 'Exception not found' };
   },
 
+  // --- COLLECTION TASKS ---
   getTasks: (params = {}) => {
     const db = getDb();
     return { success: true, count: db.tasks.length, tasks: db.tasks };
+  },
+
+  createTask: (data) => {
+    const db = getDb();
+    const newId = `TSK-${Math.floor(100 + Math.random() * 900)}`;
+    const newTask = {
+      _id: `tsk-${Date.now()}`,
+      taskId: newId,
+      title: data.title || 'Evacuation & Clearance Dispatch',
+      stationId: data.stationId || 'WS-001',
+      stationName: data.stationName || 'Central Library Atrium',
+      location: data.location || 'Campus Smart Station',
+      wasteType: data.wasteType || 'Dry Recyclables',
+      reason: data.reason || 'Sensor fill threshold breached.',
+      zone: data.zone || 'Academic Core',
+      priority: data.priority || 'HIGH',
+      status: 'PENDING',
+      assignedWorker: data.assignedWorker || { id: 'usr-003', name: 'Rahul Verma', phone: '+91 98765 43210' },
+      targetCompletion: new Date(Date.now() + 45 * 60000).toISOString(),
+      notes: data.notes || '',
+      qrValidated: false,
+      proofPhoto: null
+    };
+    db.tasks.unshift(newTask);
+    saveDb(db);
+    return { success: true, task: newTask };
   },
 
   updateTask: (id, updates) => {
     const db = getDb();
     const idx = db.tasks.findIndex(t => t.taskId === id || t._id === id);
     if (idx !== -1) {
-      db.tasks[idx] = { ...db.tasks[idx], ...updates };
+      const task = db.tasks[idx];
+      if (updates.action === 'START') {
+        task.status = 'IN_PROGRESS';
+        task.startedAt = new Date().toISOString();
+      } else if (updates.action === 'COMPLETE') {
+        task.status = 'COMPLETED';
+        task.completedAt = new Date().toISOString();
+        task.qrValidated = true;
+        if (updates.proofPhoto) task.proofPhoto = updates.proofPhoto;
+        if (updates.notes) task.notes = updates.notes;
+        if (updates.qrCodeScanned) task.qrCodeScanned = updates.qrCodeScanned;
+
+        // Reset station fill level upon collection
+        const stationIdx = db.stations.findIndex(s => s.stationId === task.stationId);
+        if (stationIdx !== -1) {
+          db.stations[stationIdx].fillPercentage = 15;
+          db.stations[stationIdx].status = 'healthy';
+          db.stations[stationIdx].lastTelemetryReceivedAt = new Date().toISOString();
+          if (db.stations[stationIdx].bins) {
+            db.stations[stationIdx].bins.forEach(b => { b.fillLevel = 15; });
+          }
+        }
+      } else {
+        Object.assign(task, updates);
+      }
       saveDb(db);
-      return { success: true, task: db.tasks[idx] };
+      return { success: true, task };
     }
     return { success: false, message: 'Task not found' };
   },
 
+  // --- SANITATION OPS ---
   getSanitation: () => {
     const db = getDb();
     return { success: true, count: db.sanitation.length, tasks: db.sanitation };
@@ -896,50 +1022,77 @@ export const mockStore = {
     return { success: false, message: 'Sanitation record not found' };
   },
 
+  // --- DASHBOARD TELEMETRY ---
   getDashboard: () => {
     const db = getDb();
+    const openExp = (db.exceptions || []).filter(e => e.status !== 'RESOLVED');
+    const critExp = openExp.filter(e => e.severity === 'CRITICAL').length;
+    const healthyStations = (db.stations || []).filter(s => s.status === 'healthy').length;
+    const totalStations = (db.stations || []).length;
+    const totalEvents = 1480 + (db.events ? db.events.length : 0);
+
     return {
       success: true,
       header: {
         greeting: 'Good morning, Operations Directorate',
-        date: new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' }),
-        workspace: 'Smart Campus Waste Operations',
-        campus: 'Main Institute Campus (12 Active Nodes)'
+        workspace: 'Campus Operations',
+        campus: 'Main Smart Campus (12 Active Nodes)',
+        date: new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })
       },
       kpis: {
-        totalEventsToday: 1482,
+        wasteEvents: { value: totalEvents.toLocaleString(), delta: '+8.4%', subtext: 'vs last week' },
+        totalEventsToday: totalEvents,
+        segregationQuality: { value: '87.4%', delta: '+3.1%', subtext: 'stream accuracy' },
         avgConfidence: 94.6,
-        openExceptions: db.exceptions.filter(e => e.status !== 'RESOLVED').length,
+        collectionCompliance: { value: '93.2%', delta: '+1.8%', subtext: 'on-time verified' },
+        openExceptions: { value: openExp.length, criticalCount: critExp, subtext: `${critExp} Critical • ${openExp.length - critExp} High/Med` },
+        wasteStations: { value: `${healthyStations} / ${totalStations}`, healthy: healthyStations, total: totalStations, subtext: `${healthyStations} healthy nodes` },
         qualityScore: 82,
         divertedKg: 462.8,
-        stationsMonitored: 12
+        stationsMonitored: totalStations
       },
-      requiresAttention: db.exceptions.filter(e => e.status !== 'RESOLVED').slice(0, 4),
+      requiresAttention: openExp.slice(0, 4),
       charts: {
+        dailyActivity: [
+          { day: 'Mon', events: 164, segregated: 148, contaminated: 16 },
+          { day: 'Tue', events: 182, segregated: 160, contaminated: 22 },
+          { day: 'Wed', events: 195, segregated: 174, contaminated: 21 },
+          { day: 'Thu', events: 178, segregated: 156, contaminated: 22 },
+          { day: 'Fri', events: 210, segregated: 186, contaminated: 24 },
+          { day: 'Sat', events: 188, segregated: 165, contaminated: 23 },
+          { day: 'Sun', events: 167, segregated: 149, contaminated: 18 }
+        ],
         hourlyEvents: [
-          { time: '08:00', events: 34, volume: 18 },
-          { time: '10:00', events: 88, volume: 45 },
-          { time: '12:00', events: 142, volume: 92 },
-          { time: '14:00', events: 198, volume: 140 },
-          { time: '16:00', events: 165, volume: 110 },
-          { time: '18:00', events: 120, volume: 75 },
-          { time: '20:00', events: 65, volume: 40 }
+          { time: '08:00', events: 18 },
+          { time: '10:00', events: 42 },
+          { time: '12:00', events: 88 },
+          { time: '14:00', events: 64 },
+          { time: '16:00', events: 51 },
+          { time: '18:00', events: 35 },
+          { time: '20:00', events: 19 }
         ],
         wasteByCategory: [
-          { name: 'Dry Recyclables', value: 48, color: '#38BDF8' },
-          { name: 'Wet Organic', value: 36, color: '#10B981' },
-          { name: 'Hazardous', value: 8, color: '#EF4444' },
-          { name: 'E-Waste', value: 8, color: '#8B5CF6' }
+          { name: 'Dry Recyclables', value: 52, color: '#2563EB' },
+          { name: 'Wet Organic', value: 32, color: '#16A34A' },
+          { name: 'Sanitary Waste', value: 11, color: '#D97706' },
+          { name: 'Special Care', value: 5, color: '#DC2626' }
         ],
-        stationFills: db.stations.slice(0, 6).map(s => ({
+        categoryDistribution: [
+          { name: 'Dry Recyclables', value: 52, color: '#2563EB' },
+          { name: 'Wet Organic', value: 32, color: '#16A34A' },
+          { name: 'Sanitary Waste', value: 11, color: '#D97706' },
+          { name: 'Special Care', value: 5, color: '#DC2626' }
+        ],
+        stationFills: (db.stations || []).slice(0, 6).map(s => ({
           name: s.stationId,
           fill: s.fillPercentage
         }))
       },
-      recentEvents: db.events.slice(0, 5)
+      recentEvents: (db.events || []).slice(0, 8)
     };
   },
 
+  // --- ANALYTICS ---
   getAnalytics: (params = {}) => {
     return {
       success: true,
@@ -982,6 +1135,7 @@ export const mockStore = {
     };
   },
 
+  // --- NOTIFICATIONS ---
   getNotifications: () => {
     const db = getDb();
     const unreadCount = db.notifications.filter(n => !n.read).length;
@@ -998,15 +1152,16 @@ export const mockStore = {
     return { success: true };
   },
 
+  // --- REPORTS ---
   generateReport: (reportType = 'Daily Operations', timeframe = 'Last 7 Days') => {
     return {
       success: true,
       report: {
         reportType,
         generatedAt: new Date().toISOString(),
-        source: 'deterministic_fallback',
-        notice: 'Calibrated Campus Operational Intelligence Engine',
-        content: `SwaLoop Campus Operations Report — ${reportType}
+        source: 'autonomous_client_engine',
+        notice: 'Calibrated Campus Operational Intelligence Engine (Zero-Backend Mode)',
+        content: `EcoNest Campus Operations Report — ${reportType}
 Generated: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
 Timeframe Scope: ${timeframe}
 
@@ -1032,67 +1187,87 @@ Over the specified period, the campus recorded 1,482 verified waste transactions
     };
   },
 
-  getDashboard: () => {
-    const db = getDb();
-    const openExp = (db.exceptions || []).filter(e => e.status !== 'RESOLVED');
-    const critExp = openExp.filter(e => e.severity === 'CRITICAL').length;
-    return {
-      success: true,
-      header: {
-        greeting: 'Good morning, Facility Team',
-        workspace: 'Campus Operations',
-        date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-      },
-      kpis: {
-        wasteEvents: { value: '1,482', delta: '+8.4%', subtext: 'vs last week' },
-        segregationQuality: { value: '87.4%', delta: '+3.1%', subtext: 'stream accuracy' },
-        collectionCompliance: { value: '93.2%', delta: '+1.8%', subtext: 'on-time verified' },
-        openExceptions: { value: openExp.length || 4, criticalCount: critExp || 1, subtext: `${critExp || 1} Critical • 2 High priority` },
-        wasteStations: { value: '10 / 12', healthy: 10, total: 12, subtext: '10 healthy nodes' },
-        qualityScore: 82
-      },
-      requiresAttention: openExp.slice(0, 4),
-      charts: {
-        dailyActivity: [
-          { day: 'Mon', events: 164, segregated: 148, contaminated: 16 },
-          { day: 'Tue', events: 182, segregated: 160, contaminated: 22 },
-          { day: 'Wed', events: 195, segregated: 174, contaminated: 21 },
-          { day: 'Thu', events: 178, segregated: 156, contaminated: 22 },
-          { day: 'Fri', events: 210, segregated: 186, contaminated: 24 },
-          { day: 'Sat', events: 188, segregated: 165, contaminated: 23 },
-          { day: 'Sun', events: 167, segregated: 149, contaminated: 18 }
-        ],
-        hourlyEvents: [
-          { time: '08:00', events: 18 },
-          { time: '10:00', events: 42 },
-          { time: '12:00', events: 88 },
-          { time: '14:00', events: 64 },
-          { time: '16:00', events: 51 },
-          { time: '18:00', events: 35 },
-          { time: '20:00', events: 19 }
-        ],
-        wasteByCategory: [
-          { name: 'Dry Recyclables', value: 52, color: '#2563EB' },
-          { name: 'Wet Organic', value: 32, color: '#16A34A' },
-          { name: 'Sanitary Waste', value: 11, color: '#D97706' },
-          { name: 'Special Care', value: 5, color: '#DC2626' }
-        ],
-        categoryDistribution: [
-          { name: 'Dry Recyclables', value: 52, color: '#2563EB' },
-          { name: 'Wet Organic', value: 32, color: '#16A34A' },
-          { name: 'Sanitary Waste', value: 11, color: '#D97706' },
-          { name: 'Special Care', value: 5, color: '#DC2626' }
-        ]
-      },
-      recentEvents: (db.events || []).slice(0, 8)
-    };
-  },
-
+  // --- AI STREAM CLASSIFIER ---
   classifyImage: (formData) => {
+    let imageName = '';
+    if (formData instanceof FormData) {
+      const file = formData.get('image');
+      if (file && file.name) imageName = file.name.toLowerCase();
+    }
+
+    if (imageName.includes('battery') || imageName.includes('electronic') || imageName.includes('circuit')) {
+      return {
+        success: true,
+        analysis: {
+          category: 'Electronic / Hazardous Scrap',
+          wasteStream: 'hazardous',
+          confidence: 0.99,
+          confidenceTier: 'High',
+          contamination: {
+            detected: true,
+            severity: 'Critical',
+            detectedItems: ['Lithium-ion polymer pouch', 'PCB substrate fragments'],
+            notes: 'Puncture fire risk. Must NOT be mixed with general municipal waste.'
+          },
+          recommendedStream: 'Special Waste (Red/Yellow Lockbox)',
+          requiredAction: 'Secure in campus fire-rated antistatic transfer tote with terminal insulator caps.',
+          explanation: 'Energy storage cells and heavy metal circuitry detected. Hazardous compliance protocol initiated.',
+          source: 'gemini_vision',
+          statusNotice: 'Hazardous Waste Alert Protocol Active.'
+        }
+      };
+    }
+
+    if (imageName.includes('wet') || imageName.includes('food') || imageName.includes('organic') || imageName.includes('fruit') || imageName.includes('peel')) {
+      return {
+        success: true,
+        analysis: {
+          category: 'Wet Compostable Organic',
+          wasteStream: 'wet',
+          confidence: 0.96,
+          confidenceTier: 'High',
+          contamination: {
+            detected: false,
+            severity: 'None',
+            detectedItems: ['Vegetable peelings', 'Fruit rinds', 'Spent coffee grounds'],
+            notes: 'Compostable biomass verified. No plastic wrapping or metal cutlery mixed.'
+          },
+          recommendedStream: 'Wet Organic (Green Bin)',
+          requiredAction: 'Transfer directly to Institute Aerated Composting Yard Pit #2.',
+          explanation: 'High moisture organic bio-mass detected. Ideal for 18-day aerobic soil enrichment.',
+          source: 'gemini_vision',
+          statusNotice: 'Verified Compost Stream.'
+        }
+      };
+    }
+
+    if (imageName.includes('clean') || imageName.includes('paper') || imageName.includes('cardboard') || imageName.includes('box')) {
+      return {
+        success: true,
+        analysis: {
+          category: 'Dry Paper & Cardboard',
+          wasteStream: 'dry',
+          confidence: 0.98,
+          confidenceTier: 'High',
+          contamination: {
+            detected: false,
+            severity: 'None',
+            detectedItems: ['Clean printer paper', 'Unprinted corrugated packaging'],
+            notes: 'Zero food grease or foreign film detected. Pristine recyclable paper pulp stream.'
+          },
+          recommendedStream: 'Dry Recyclable (Blue Bin)',
+          requiredAction: 'Compress and bundle for direct campus recycling baler transfer.',
+          explanation: 'Uncontaminated cellulose paper matrix detected with high spectral certainty.',
+          source: 'gemini_vision',
+          statusNotice: 'Verified Clean Stream (Grade A).'
+        }
+      };
+    }
+
     return {
       success: true,
       analysis: {
-        category: 'Dry Recyclables',
+        category: 'Dry Recyclables (Contaminated)',
         wasteStream: 'dry',
         confidence: 0.94,
         confidenceTier: 'High',
@@ -1109,5 +1284,35 @@ Over the specified period, the campus recorded 1,482 verified waste transactions
         statusNotice: 'AI assists classification and documentation. Human staff make final operational decisions.'
       }
     };
+  },
+
+  // --- UTILITIES ---
+  getAuditLogs: () => {
+    const db = getDb();
+    return {
+      success: true,
+      logs: db.events.map(ev => ({
+        id: `aud-${ev.eventId.replace('#', '')}`,
+        timestamp: ev.timestamp,
+        actor: ev.verifiedBy || 'System Daemon',
+        action: `Event ${ev.status}`,
+        target: `${ev.stationId} • ${ev.category}`,
+        hash: `SHA256:${ev.qrCode || 'AUTO'}-${ev.verificationScore}`
+      }))
+    };
+  },
+
+  getHealth: () => ({
+    success: true,
+    status: 'operational_mock_engine',
+    mode: 'standalone_offline',
+    uptime: '100%'
+  }),
+
+  resetDatabase: () => {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (_) {}
+    return getDb();
   }
 };

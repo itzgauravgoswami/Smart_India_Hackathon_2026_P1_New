@@ -34,7 +34,7 @@ const wasteStationSchema = new mongoose.Schema({
   lastCollection: { type: Date, default: Date.now },
   nextRecommendedCollection: { type: Date, default: () => new Date(Date.now() + 4 * 3600000) },
   lastSanitation: { type: Date, default: Date.now },
-  qrCode: { type: String, required: true }, // e.g. SWALOOP-QR-WS-001
+  qrCode: { type: String, required: true }, // e.g. ECONEST-QR-WS-001
   assignedWorker: {
     userId: { type: String, default: '' },
     name: { type: String, default: '' }

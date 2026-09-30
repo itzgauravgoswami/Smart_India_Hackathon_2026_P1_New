@@ -1,7 +1,7 @@
 {
-  "name": "swaloop-server",
+  "name": "econest-server",
   "version": "1.0.0",
-  "description": "SwaLoop Backend - Every waste event. One verified loop.",
+  "description": "EcoNest Backend - Every waste event. One verified loop.",
   "main": "server.js",
   "type": "module",
   "scripts": {

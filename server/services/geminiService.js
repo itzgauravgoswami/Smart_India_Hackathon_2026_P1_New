@@ -237,9 +237,9 @@ Implement automated worker alerts when fill trajectory indicates >80% threshold 
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     const prompt = `
-You are the Chief Facility Operations Officer for an enterprise smart university campus running SwaLoop.
+You are the Chief Facility Operations Officer for an enterprise smart university campus running EcoNest.
 Generate an operational, professional, data-driven ${reportType} report for the timeframe: ${timeframe}.
-Reference the SwaLoop operational loop: DETECT → CLASSIFY → VERIFY → ACT → PROVE → MEASURE.
+Reference the EcoNest operational loop: DETECT → CLASSIFY → VERIFY → ACT → PROVE → MEASURE.
 Tone: Calm, precise, operational, data-driven, without generic AI marketing fluff or emojis.
 Metrics context: 1,284 total events, 87.4% segregation quality, 93.2% collection compliance, 12 active stations (WS-001 through WS-012), 4 open exceptions.
 `;

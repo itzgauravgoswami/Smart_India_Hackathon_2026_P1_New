@@ -73,7 +73,7 @@ router.get('/audit-logs', async (req, res) => {
 router.get('/health', (req, res) => {
   res.json({
     status: 'operational',
-    service: 'SwaLoop Core Engine',
+    service: 'EcoNest Core Engine',
     timestamp: new Date(),
     demoMode: true,
     mongoConnected: dataStore.isMongoConnected,

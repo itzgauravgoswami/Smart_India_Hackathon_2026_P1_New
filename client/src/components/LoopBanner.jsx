@@ -15,7 +15,7 @@ export default function LoopBanner({ activeStep, compact = false }) {
     return (
       <div className="bg-slate-900 text-slate-300 py-1.5 px-3 rounded-lg text-xs flex items-center justify-between overflow-x-auto gap-2 border border-slate-800">
         <span className="font-semibold text-emerald-400 uppercase tracking-wider text-[10px] shrink-0">
-          The SwaLoop Loop:
+          The EcoNest Loop:
         </span>
         <div className="flex items-center gap-1.5 shrink-0">
           {steps.map((s, idx) => {

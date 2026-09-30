@@ -6,7 +6,7 @@ const AuthContext = createContext(null);
 const DEFAULT_USER = {
   id: 'usr-002',
   name: 'Ananya Iyer',
-  email: 'manager@swaloop.campus',
+  email: 'manager@econest.campus',
   role: 'manager',
   department: 'Facility Management & Operations',
   campus: 'Main Smart Campus'
@@ -15,7 +15,7 @@ const DEFAULT_USER = {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
-      const saved = localStorage.getItem('swaloop_user');
+      const saved = localStorage.getItem('econest_user') || localStorage.getItem('swaloop_user');
       if (saved) return JSON.parse(saved);
     } catch (_) {}
     return DEFAULT_USER;
@@ -24,17 +24,17 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     async function loadSession() {
-      const token = localStorage.getItem('swaloop_token');
-      const savedUser = localStorage.getItem('swaloop_user');
+      const token = localStorage.getItem('econest_token') || localStorage.getItem('swaloop_token');
+      const savedUser = localStorage.getItem('econest_user') || localStorage.getItem('swaloop_user');
       if (!token || !savedUser) {
-        localStorage.setItem('swaloop_user', JSON.stringify(DEFAULT_USER));
-        localStorage.setItem('swaloop_token', 'demo_active_token');
+        localStorage.setItem('econest_user', JSON.stringify(DEFAULT_USER));
+        localStorage.setItem('econest_token', 'demo_active_token');
       }
       try {
         const res = await api.getMe();
         if (res.user) {
           setUser(res.user);
-          localStorage.setItem('swaloop_user', JSON.stringify(res.user));
+          localStorage.setItem('econest_user', JSON.stringify(res.user));
         }
       } catch (_) {}
     }
@@ -44,15 +44,15 @@ export function AuthProvider({ children }) {
   async function autoLoginDemo(role = 'manager') {
     try {
       const emailMap = {
-        manager: 'manager@swaloop.campus',
-        worker: 'worker1@swaloop.campus',
-        student: 'student@swaloop.campus',
-        admin: 'admin@swaloop.campus'
+        manager: 'manager@econest.campus',
+        worker: 'worker1@econest.campus',
+        student: 'student@econest.campus',
+        admin: 'admin@econest.campus'
       };
-      const res = await api.login(emailMap[role] || 'manager@swaloop.campus', `${role}123`);
+      const res = await api.login(emailMap[role] || 'manager@econest.campus', `${role}123`);
       if (res.success && res.token) {
-        localStorage.setItem('swaloop_token', res.token);
-        localStorage.setItem('swaloop_user', JSON.stringify(res.user));
+        localStorage.setItem('econest_token', res.token);
+        localStorage.setItem('econest_user', JSON.stringify(res.user));
         setUser(res.user);
       }
     } catch (err) {
@@ -63,8 +63,8 @@ export function AuthProvider({ children }) {
   async function login(email, password) {
     const res = await api.login(email, password);
     if (res.success && res.token) {
-      localStorage.setItem('swaloop_token', res.token);
-      localStorage.setItem('swaloop_user', JSON.stringify(res.user));
+      localStorage.setItem('econest_token', res.token);
+      localStorage.setItem('econest_user', JSON.stringify(res.user));
       setUser(res.user);
       return res.user;
     }
@@ -72,6 +72,8 @@ export function AuthProvider({ children }) {
   }
 
   function logout() {
+    localStorage.removeItem('econest_token');
+    localStorage.removeItem('econest_user');
     localStorage.removeItem('swaloop_token');
     localStorage.removeItem('swaloop_user');
     setUser(null);
@@ -82,7 +84,7 @@ export function AuthProvider({ children }) {
       manager: {
         id: 'usr-002',
         name: 'Ananya Iyer',
-        email: 'manager@swaloop.campus',
+        email: 'manager@econest.campus',
         role: 'manager',
         department: 'Facility Management & Operations',
         campus: 'Main Smart Campus'
@@ -90,7 +92,7 @@ export function AuthProvider({ children }) {
       worker: {
         id: 'usr-003',
         name: 'Rahul Verma',
-        email: 'worker1@swaloop.campus',
+        email: 'worker1@econest.campus',
         role: 'worker',
         department: 'Sanitation & Grounds Crew #3',
         campus: 'Main Smart Campus'
@@ -98,7 +100,7 @@ export function AuthProvider({ children }) {
       student: {
         id: 'usr-006',
         name: 'Aarav Patel',
-        email: 'student@swaloop.campus',
+        email: 'student@econest.campus',
         role: 'student',
         department: 'Computer Science & Engineering',
         campus: 'Main Smart Campus'
@@ -106,7 +108,7 @@ export function AuthProvider({ children }) {
       admin: {
         id: 'usr-001',
         name: 'Dr. Rajesh Sharma',
-        email: 'admin@swaloop.campus',
+        email: 'admin@econest.campus',
         role: 'admin',
         department: 'Campus Administration & ESG Directorate',
         campus: 'Main Smart Campus'
@@ -115,8 +117,8 @@ export function AuthProvider({ children }) {
 
     const targetUser = roleProfiles[role] || roleProfiles.manager;
     setUser(targetUser);
-    localStorage.setItem('swaloop_user', JSON.stringify(targetUser));
-    localStorage.setItem('swaloop_token', `demo_token_${role}`);
+    localStorage.setItem('econest_user', JSON.stringify(targetUser));
+    localStorage.setItem('econest_token', `demo_token_${role}`);
 
     try {
       await autoLoginDemo(role);

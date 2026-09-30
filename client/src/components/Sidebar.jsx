@@ -67,16 +67,12 @@ export default function Sidebar({ onOpenNotifications, unreadCount = 0 }) {
       {/* Brand Header */}
       <div className="p-4 border-b border-slate-300">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white shrink-0 shadow-xs">
-            <svg className="w-5 h-5" viewBox="0 0 32 32" fill="none">
-              <path d="M11 16C11 13.2386 13.2386 11 16 11C18.7614 11 21 13.2386 21 16C21 18.7614 18.7614 21 16 21C13.5 21 11.5 19.3 11.1 17" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round"/>
-              <circle cx="16" cy="16" r="2" fill="#10B981"/>
-              <path d="M20 14L22.5 16.5L25 12" stroke="#38BDF8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+          <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-xs border border-slate-200 bg-white">
+            <img src="/logo.png" alt="EcoNest Logo" className="w-full h-full object-contain p-0.5" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-extrabold tracking-tight text-slate-950 text-base">SwaLoop</span>
+              <span className="font-extrabold tracking-tight text-slate-950 text-base">EcoNest</span>
               <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-100 text-slate-700 border border-slate-300 font-bold">PRO</span>
             </div>
             <p className="text-[11px] text-slate-600 font-semibold">Campus Operations</p>

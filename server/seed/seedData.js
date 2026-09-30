@@ -7,7 +7,7 @@ export const SEED_USERS = [
   {
     _id: 'usr-001',
     name: 'Dr. Rajesh Sharma',
-    email: 'admin@swaloop.campus',
+    email: 'admin@econest.campus',
     password: hashPassword('admin123'),
     rawPassword: 'admin123',
     role: 'admin',
@@ -19,7 +19,7 @@ export const SEED_USERS = [
   {
     _id: 'usr-002',
     name: 'Ananya Iyer',
-    email: 'manager@swaloop.campus',
+    email: 'manager@econest.campus',
     password: hashPassword('manager123'),
     rawPassword: 'manager123',
     role: 'manager',
@@ -31,7 +31,7 @@ export const SEED_USERS = [
   {
     _id: 'usr-003',
     name: 'Rahul Verma',
-    email: 'worker1@swaloop.campus',
+    email: 'worker1@econest.campus',
     password: hashPassword('worker123'),
     rawPassword: 'worker123',
     role: 'worker',
@@ -44,7 +44,7 @@ export const SEED_USERS = [
   {
     _id: 'usr-004',
     name: 'Suresh Kumar',
-    email: 'worker2@swaloop.campus',
+    email: 'worker2@econest.campus',
     password: hashPassword('worker123'),
     rawPassword: 'worker123',
     role: 'worker',
@@ -57,7 +57,7 @@ export const SEED_USERS = [
   {
     _id: 'usr-005',
     name: 'Pooja Devi',
-    email: 'worker3@swaloop.campus',
+    email: 'worker3@econest.campus',
     password: hashPassword('worker123'),
     rawPassword: 'worker123',
     role: 'worker',
@@ -70,7 +70,7 @@ export const SEED_USERS = [
   {
     _id: 'usr-006',
     name: 'Aarav Patel',
-    email: 'student@swaloop.campus',
+    email: 'student@econest.campus',
     password: hashPassword('student123'),
     rawPassword: 'student123',
     role: 'student',
@@ -83,7 +83,7 @@ export const SEED_USERS = [
   {
     _id: 'usr-007',
     name: 'Neha Sen',
-    email: 'student2@swaloop.campus',
+    email: 'student2@econest.campus',
     password: hashPassword('student123'),
     rawPassword: 'student123',
     role: 'student',
@@ -96,7 +96,7 @@ export const SEED_USERS = [
   {
     _id: 'usr-008',
     name: 'Rohan Mehta',
-    email: 'student3@swaloop.campus',
+    email: 'student3@econest.campus',
     password: hashPassword('student123'),
     rawPassword: 'student123',
     role: 'student',
@@ -109,7 +109,7 @@ export const SEED_USERS = [
   {
     _id: 'usr-009',
     name: 'Sneha Joshi',
-    email: 'student4@swaloop.campus',
+    email: 'student4@econest.campus',
     password: hashPassword('student123'),
     rawPassword: 'student123',
     role: 'student',
@@ -122,7 +122,7 @@ export const SEED_USERS = [
   {
     _id: 'usr-010',
     name: 'Vikram Rao',
-    email: 'student5@swaloop.campus',
+    email: 'student5@econest.campus',
     password: hashPassword('student123'),
     rawPassword: 'student123',
     role: 'student',
@@ -155,7 +155,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 3 * 3600000),
     nextRecommendedCollection: new Date(Date.now() + 5 * 3600000),
     lastSanitation: new Date(Date.now() - 6 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-001',
+    qrCode: 'ECONEST-QR-WS-001',
     assignedWorker: { userId: 'usr-003', name: 'Rahul Verma' }
   },
   {
@@ -178,7 +178,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 4 * 3600000),
     nextRecommendedCollection: new Date(Date.now() + 2 * 3600000),
     lastSanitation: new Date(Date.now() - 4 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-002',
+    qrCode: 'ECONEST-QR-WS-002',
     assignedWorker: { userId: 'usr-004', name: 'Suresh Kumar' }
   },
   {
@@ -201,7 +201,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 2 * 3600000),
     nextRecommendedCollection: new Date(Date.now() + 4 * 3600000),
     lastSanitation: new Date(Date.now() - 5 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-003',
+    qrCode: 'ECONEST-QR-WS-003',
     assignedWorker: { userId: 'usr-003', name: 'Rahul Verma' }
   },
   {
@@ -224,7 +224,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 5 * 3600000),
     nextRecommendedCollection: new Date(Date.now() - 30 * 60000), // overdue!
     lastSanitation: new Date(Date.now() - 3 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-004',
+    qrCode: 'ECONEST-QR-WS-004',
     assignedWorker: { userId: 'usr-003', name: 'Rahul Verma' }
   },
   {
@@ -247,7 +247,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 5 * 3600000),
     nextRecommendedCollection: new Date(Date.now() + 1 * 3600000),
     lastSanitation: new Date(Date.now() - 7 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-005',
+    qrCode: 'ECONEST-QR-WS-005',
     assignedWorker: { userId: 'usr-005', name: 'Pooja Devi' }
   },
   {
@@ -270,7 +270,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 3 * 3600000),
     nextRecommendedCollection: new Date(Date.now() + 3 * 3600000),
     lastSanitation: new Date(Date.now() - 2 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-006',
+    qrCode: 'ECONEST-QR-WS-006',
     assignedWorker: { userId: 'usr-004', name: 'Suresh Kumar' }
   },
   {
@@ -293,7 +293,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 6 * 3600000),
     nextRecommendedCollection: new Date(Date.now() - 10 * 60000),
     lastSanitation: new Date(Date.now() - 8 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-007',
+    qrCode: 'ECONEST-QR-WS-007',
     assignedWorker: { userId: 'usr-005', name: 'Pooja Devi' }
   },
   {
@@ -316,7 +316,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 6 * 3600000),
     nextRecommendedCollection: new Date(Date.now() + 6 * 3600000),
     lastSanitation: new Date(Date.now() - 10 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-008',
+    qrCode: 'ECONEST-QR-WS-008',
     assignedWorker: { userId: 'usr-004', name: 'Suresh Kumar' }
   },
   {
@@ -339,7 +339,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 7 * 3600000),
     nextRecommendedCollection: new Date(Date.now() + 3 * 3600000),
     lastSanitation: new Date(Date.now() - 9 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-009',
+    qrCode: 'ECONEST-QR-WS-009',
     assignedWorker: { userId: 'usr-003', name: 'Rahul Verma' }
   },
   {
@@ -362,7 +362,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 1 * 3600000),
     nextRecommendedCollection: new Date(Date.now() + 7 * 3600000),
     lastSanitation: new Date(Date.now() - 2 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-010',
+    qrCode: 'ECONEST-QR-WS-010',
     assignedWorker: { userId: 'usr-004', name: 'Suresh Kumar' }
   },
   {
@@ -385,7 +385,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 2 * 3600000),
     nextRecommendedCollection: new Date(Date.now() + 4 * 3600000),
     lastSanitation: new Date(Date.now() - 4 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-011',
+    qrCode: 'ECONEST-QR-WS-011',
     assignedWorker: { userId: 'usr-005', name: 'Pooja Devi' }
   },
   {
@@ -408,7 +408,7 @@ export const SEED_STATIONS = [
     lastCollection: new Date(Date.now() - 4 * 3600000),
     nextRecommendedCollection: new Date(Date.now() + 1 * 3600000),
     lastSanitation: new Date(Date.now() - 5 * 3600000),
-    qrCode: 'SWALOOP-QR-WS-012',
+    qrCode: 'ECONEST-QR-WS-012',
     assignedWorker: { userId: 'usr-003', name: 'Rahul Verma' }
   }
 ];
@@ -617,7 +617,7 @@ export const SEED_TASKS = [
     verification: {
       type: 'QR_CODE',
       verifiedAt: new Date(Date.now() - 16 * 60000),
-      qrCodeScanned: 'SWALOOP-QR-WS-002'
+      qrCodeScanned: 'ECONEST-QR-WS-002'
     },
     proofPhoto: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600&auto=format&fit=crop&q=80',
     notes: 'Baled 18kg clean paper waste for recycling partner pickup.'
@@ -830,12 +830,12 @@ export const SEED_EVENTS = [
         timestamp: new Date(Date.now() - 15 * 60000),
         timeString: '11:04 AM',
         action: 'QR verification completed',
-        description: 'Physical station QR token SWALOOP-QR-WS-004 validated successfully.',
+        description: 'Physical station QR token ECONEST-QR-WS-004 validated successfully.',
         actor: 'Rahul Verma',
         icon: 'qr-code'
       }
     ],
-    qrCodeToken: 'SWALOOP-QR-WS-004',
+    qrCodeToken: 'ECONEST-QR-WS-004',
     createdAt: new Date(Date.now() - 50 * 60000)
   },
   {
@@ -900,7 +900,7 @@ export const SEED_EVENTS = [
         timeString: '10:50 AM',
         action: 'Event resolved',
         description: 'Station reset to normal healthy operating threshold.',
-        actor: 'SwaLoop Loop Engine',
+        actor: 'EcoNest Loop Engine',
         icon: 'shield-check'
       }
     ],
@@ -1167,7 +1167,7 @@ for (let i = 1; i <= 26; i++) {
           timeString: `${9 + (i % 8)}:15 AM`,
           action: 'Event resolved',
           description: 'Verified loop closed and metrics archived.',
-          actor: 'SwaLoop Loop Engine',
+          actor: 'EcoNest Loop Engine',
           icon: 'shield-check'
         }
       ] : [])

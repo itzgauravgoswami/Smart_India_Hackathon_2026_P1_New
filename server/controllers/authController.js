@@ -87,28 +87,28 @@ export async function getDemoAccounts(req, res) {
   const accounts = [
     {
       role: 'Facility Manager',
-      email: 'manager@swaloop.campus',
+      email: 'manager@econest.campus',
       password: 'manager123',
       name: 'Ananya Iyer',
       desc: 'Full operational access, exceptions, dispatcher, stations & analytics.'
     },
     {
       role: 'Sanitation Worker',
-      email: 'worker1@swaloop.campus',
+      email: 'worker1@econest.campus',
       password: 'worker123',
       name: 'Rahul Verma',
       desc: 'Mobile-first crew view: tasks, station QR verification, proof uploads.'
     },
     {
       role: 'Student',
-      email: 'student@swaloop.campus',
+      email: 'student@econest.campus',
       password: 'student123',
       name: 'Aarav Patel',
       desc: 'Report waste issues, upload photos, AI guidance, track tickets.'
     },
     {
       role: 'Campus Admin',
-      email: 'admin@swaloop.campus',
+      email: 'admin@econest.campus',
       password: 'admin123',
       name: 'Dr. Rajesh Sharma',
       desc: 'System governance, user administration, security audit logs.'
