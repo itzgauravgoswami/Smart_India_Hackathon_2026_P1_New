@@ -1,0 +1,19 @@
+{
+  "name": "swaloop-monorepo",
+  "version": "1.0.0",
+  "description": "SwaLoop - Every waste event. One verified loop.",
+  "scripts": {
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "seed": "cd server && npm run seed"
+  },
+  "keywords": [
+    "swaloop",
+    "waste-management",
+    "smart-campus",
+    "sanitation"
+  ],
+  "author": "SwaLoop Architecture Team",
+  "license": "MIT"
+}
